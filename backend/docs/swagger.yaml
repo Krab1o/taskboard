@@ -1,0 +1,112 @@
+definitions:
+  dto.Project:
+    properties:
+      id:
+        type: integer
+      taskCount:
+        type: integer
+      title:
+        type: string
+    type: object
+  dto.Task:
+    properties:
+      assignedUser:
+        $ref: '#/definitions/dto.User'
+      creatorUser:
+        $ref: '#/definitions/dto.User'
+      description:
+        type: string
+      id:
+        type: integer
+      project:
+        $ref: '#/definitions/dto.Project'
+      title:
+        type: string
+    type: object
+  dto.User:
+    properties:
+      givenName:
+        type: string
+      id:
+        type: integer
+      surname:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /projects:
+    get:
+      consumes:
+      - application/json
+      description: Returns projects in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.Project'
+            type: array
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get projects list
+      tags:
+      - Project
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: Returns tasks in the system
+      parameters:
+      - description: Project Name
+        in: query
+        name: project
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.Task'
+            type: array
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get tasks list
+      tags:
+      - Tasks
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Returns users in the system
+      parameters:
+      - description: Project Name
+        in: query
+        name: project
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.User'
+            type: array
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get users list
+      tags:
+      - User
+swagger: "2.0"
